@@ -72,6 +72,10 @@ try
             healthChecksBuilder.AddRabbitMQ(
                 sp => 
                 {
+                    // Note: Using GetAwaiter().GetResult() is safe here because:
+                    // 1. This factory is called by health check background service, not during HTTP requests
+                    // 2. RabbitMQ.Client v7+ only provides async connection methods
+                    // 3. The health check library requires a synchronous factory method
                     var factory = new RabbitMQ.Client.ConnectionFactory();
                     factory.Uri = new Uri(rabbitMqConnection);
                     return factory.CreateConnectionAsync().GetAwaiter().GetResult();
