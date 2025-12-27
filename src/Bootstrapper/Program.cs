@@ -114,39 +114,46 @@ try
     // Use Serilog request logging
     app.UseSerilogRequestLogging();
 
-    // Add modules to pipeline
-    moduleLoader.UseModules(app);
+    // Use routing
+    app.UseRouting();
 
-    // Root endpoint - Application Info
-    app.MapGet("/", (ApplicationInfo appInfo) =>
+    // Configure endpoints
+    app.UseEndpoints(endpoints =>
     {
-        return Results.Ok(appInfo);
-    })
-    .WithName("GetApplicationInfo")
-    .WithTags("Application");
+        // Add modules to pipeline
+        moduleLoader.UseModules(app);
 
-    // Health check endpoint
-    app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
-    {
-        ResponseWriter = async (context, report) =>
+        // Root endpoint - Application Info
+        endpoints.MapGet("/", (ApplicationInfo appInfo) =>
         {
-            context.Response.ContentType = "application/json";
-            var result = System.Text.Json.JsonSerializer.Serialize(new
+            return Results.Ok(appInfo);
+        })
+        .WithName("GetApplicationInfo")
+        .WithTags("Application");
+
+        // Health check endpoint
+        endpoints.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+        {
+            ResponseWriter = async (context, report) =>
             {
-                status = report.Status.ToString(),
-                checks = report.Entries.Select(e => new
+                context.Response.ContentType = "application/json";
+                var result = System.Text.Json.JsonSerializer.Serialize(new
                 {
-                    name = e.Key,
-                    status = e.Value.Status.ToString(),
-                    description = e.Value.Description,
-                    duration = e.Value.Duration.ToString(),
-                    exception = e.Value.Exception?.Message,
-                    data = e.Value.Data
-                }),
-                totalDuration = report.TotalDuration.ToString()
-            });
-            await context.Response.WriteAsync(result);
-        }
+                    status = report.Status.ToString(),
+                    checks = report.Entries.Select(e => new
+                    {
+                        name = e.Key,
+                        status = e.Value.Status.ToString(),
+                        description = e.Value.Description,
+                        duration = e.Value.Duration.ToString(),
+                        exception = e.Value.Exception?.Message,
+                        data = e.Value.Data
+                    }),
+                    totalDuration = report.TotalDuration.ToString()
+                });
+                await context.Response.WriteAsync(result);
+            }
+        });
     });
 
     Log.Information("Application configured successfully");
