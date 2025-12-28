@@ -14,7 +14,7 @@ public class ModuleLoader
         _logger = logger;
     }
 
-    public void LoadModules()
+    public virtual void LoadModules()
     {
         var moduleConfig = new ModuleConfiguration();
         _configuration.GetSection("Modules").Bind(moduleConfig);
@@ -45,7 +45,7 @@ public class ModuleLoader
         }
     }
 
-    public void RegisterModuleServices(IServiceCollection services)
+    public virtual void RegisterModuleServices(IServiceCollection services)
     {
         foreach (var module in _modules)
         {
@@ -61,7 +61,7 @@ public class ModuleLoader
         }
     }
 
-    public void UseModules(IApplicationBuilder app)
+    public virtual void UseModules(IApplicationBuilder app)
     {
         foreach (var module in _modules)
         {

@@ -21,14 +21,14 @@ try
     builder.Configuration.GetSection("ApplicationInfo").Bind(applicationInfo);
     
     var envIdentifier = Environment.GetEnvironmentVariable("ApplicationIdentifier");
-    var envName = Environment.GetEnvironmentVariable("ApplicationName");
+    var envName       = Environment.GetEnvironmentVariable("ApplicationName");
     
-    if (!string.IsNullOrEmpty(envIdentifier))
+    if (!string.IsNullOrWhiteSpace(envIdentifier))
     {
         applicationInfo.ApplicationIdentifier = envIdentifier;
     }
     
-    if (!string.IsNullOrEmpty(envName))
+    if (!string.IsNullOrWhiteSpace(envName))
     {
         applicationInfo.ApplicationName = envName;
     }
@@ -44,7 +44,8 @@ try
     if (enablePostgres)
     {
         var postgresConnection = builder.Configuration.GetConnectionString("PostgreSQL");
-        if (!string.IsNullOrEmpty(postgresConnection))
+
+        if (!string.IsNullOrWhiteSpace(postgresConnection))
         {
             healthChecksBuilder.AddNpgSql(
                 postgresConnection,
@@ -62,13 +63,15 @@ try
     if (enableRabbitMQ)
     {
         var rabbitMqConnection = builder.Configuration.GetConnectionString("RabbitMQ");
-        if (!string.IsNullOrEmpty(rabbitMqConnection))
+
+        if (!string.IsNullOrWhiteSpace(rabbitMqConnection))
         {
             healthChecksBuilder.AddRabbitMQ(
                 sp => 
                 {
                     var factory = new RabbitMQ.Client.ConnectionFactory();
                     factory.Uri = new Uri(rabbitMqConnection);
+
                     return factory.CreateConnectionAsync().GetAwaiter().GetResult();
                 },
                 name: "rabbitmq",
