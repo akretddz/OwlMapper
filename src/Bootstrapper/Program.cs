@@ -5,7 +5,6 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Serilog
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
@@ -16,14 +15,11 @@ try
 {
     Log.Information("Starting OwlMapper Bootstrapper");
 
-    // Add services to the container
     builder.Services.AddOpenApi();
 
-    // Configure ApplicationInfo from configuration and environment variables
     var applicationInfo = new ApplicationInfo();
     builder.Configuration.GetSection("ApplicationInfo").Bind(applicationInfo);
     
-    // Override with environment variables if present
     var envIdentifier = Environment.GetEnvironmentVariable("ApplicationIdentifier");
     var envName = Environment.GetEnvironmentVariable("ApplicationName");
     
@@ -39,7 +35,6 @@ try
 
     builder.Services.AddSingleton(applicationInfo);
 
-    // Configure Health Checks
     var healthChecksBuilder = builder.Services.AddHealthChecks();
     
     var healthCheckConfig = builder.Configuration.GetSection("HealthChecks");
@@ -72,10 +67,6 @@ try
             healthChecksBuilder.AddRabbitMQ(
                 sp => 
                 {
-                    // Note: Using GetAwaiter().GetResult() is safe here because:
-                    // 1. This factory is called by health check background service, not during HTTP requests
-                    // 2. RabbitMQ.Client v7+ only provides async connection methods
-                    // 3. The health check library requires a synchronous factory method
                     var factory = new RabbitMQ.Client.ConnectionFactory();
                     factory.Uri = new Uri(rabbitMqConnection);
                     return factory.CreateConnectionAsync().GetAwaiter().GetResult();
@@ -91,7 +82,6 @@ try
         }
     }
 
-    // Initialize Module Loader
     using var loggerFactory = LoggerFactory.Create(loggingBuilder =>
     {
         loggingBuilder.AddSerilog();
@@ -99,15 +89,12 @@ try
     var moduleLogger = loggerFactory.CreateLogger<ModuleLoader>();
     var moduleLoader = new ModuleLoader(builder.Configuration, moduleLogger);
 
-    // Load modules
     moduleLoader.LoadModules();
 
-    // Register module services
     moduleLoader.RegisterModuleServices(builder.Services);
 
     var app = builder.Build();
 
-    // Configure the HTTP request pipeline
     if (app.Environment.IsDevelopment())
     {
         app.MapOpenApi();
@@ -115,19 +102,14 @@ try
 
     app.UseHttpsRedirection();
 
-    // Use Serilog request logging
     app.UseSerilogRequestLogging();
 
-    // Use routing
     app.UseRouting();
 
-    // Configure endpoints
     app.UseEndpoints(endpoints =>
     {
-        // Add modules to pipeline
         moduleLoader.UseModules(app);
 
-        // Root endpoint - Application Info
         endpoints.MapGet("/", (ApplicationInfo appInfo) =>
         {
             return Results.Ok(appInfo);
@@ -135,7 +117,6 @@ try
         .WithName("GetApplicationInfo")
         .WithTags("Application");
 
-        // Health check endpoint
         endpoints.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
         {
             ResponseWriter = async (context, report) =>
@@ -173,4 +154,3 @@ finally
 {
     Log.CloseAndFlush();
 }
-

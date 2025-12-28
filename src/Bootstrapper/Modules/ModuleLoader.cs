@@ -2,9 +2,6 @@ using System.Reflection;
 
 namespace OwlMapper.Bootstrapper.Modules;
 
-/// <summary>
-/// Loader for application modules
-/// </summary>
 public class ModuleLoader
 {
     private readonly IConfiguration _configuration;
@@ -17,9 +14,6 @@ public class ModuleLoader
         _logger = logger;
     }
 
-    /// <summary>
-    /// Load modules from the current assembly
-    /// </summary>
     public void LoadModules()
     {
         var moduleConfig = new ModuleConfiguration();
@@ -35,7 +29,6 @@ public class ModuleLoader
             {
                 var module = (IModule)Activator.CreateInstance(moduleType)!;
                 
-                // Check if module is enabled in configuration
                 if (moduleConfig.EnabledModules.TryGetValue(module.Name, out var isEnabled) && !isEnabled)
                 {
                     _logger.LogInformation("Module {ModuleName} is disabled in configuration", module.Name);
@@ -52,9 +45,6 @@ public class ModuleLoader
         }
     }
 
-    /// <summary>
-    /// Register all loaded module services
-    /// </summary>
     public void RegisterModuleServices(IServiceCollection services)
     {
         foreach (var module in _modules)
@@ -71,9 +61,6 @@ public class ModuleLoader
         }
     }
 
-    /// <summary>
-    /// Add all loaded modules to application pipeline
-    /// </summary>
     public void UseModules(IApplicationBuilder app)
     {
         foreach (var module in _modules)
