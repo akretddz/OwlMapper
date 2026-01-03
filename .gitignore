@@ -1,0 +1,12 @@
+﻿################################################################################
+# Ten plik .gitignore został utworzony automatycznie przez Microsoft(R) Visual Studio.
+################################################################################
+
+/.venv
+/.vs/OwlMapper/config
+/.vs/OwlMapper/copilot-chat/e320f5fb/sessions
+/.vs/OwlMapper/CopilotIndices/18.0.981.45449
+/.vs/OwlMapper/DesignTimeBuild
+/.vs/OwlMapper/FileContentIndex
+/.vs/OwlMapper/v18
+/.vs/ProjectEvaluation
