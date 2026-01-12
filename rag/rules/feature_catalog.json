@@ -1,0 +1,162 @@
+[
+  {
+    "id": "FEAT-ID-01",
+    "name": "Rejestracja i Weryfikacja Przewoźnika",
+    "module": "Identity",
+    "userStories": [
+      "Jako przewoźnik chcę założyć konto, aby móc zarządzać swoimi rozkładami.",
+      "Jako admin chcę weryfikować dane przewoźnika (NIP/REGON), aby w systemie byli tylko legalni operatorzy."
+    ],
+    "flow": "1. Przewoźnik wypełnia formularz rejestracji (dane firmy). 2. System tworzy konto nieaktywne. 3. Admin weryfikuje dane w CEIDG. 4. Admin aktywuje konto.",
+    "api": {
+      "endpoints": [
+        "POST /identity/register/carrier",
+        "POST /identity/verify/carrier/{id}"
+      ],
+      "commands": [
+        "RegisterCarrier",
+        "VerifyCarrier"
+      ],
+      "queries": [
+        "GetCarrierVerificationDetails"
+      ]
+    },
+    "security": "Wymaga weryfikacji email. Weryfikacja biznesowa przez Admina.",
+    "testing": "Integration: Rejestracja -> Blokada dostępu -> Aktywacja -> Dostęp."
+  },
+  {
+    "id": "FEAT-TRANS-01",
+    "name": "Zarządzanie Przystankami",
+    "module": "Transport",
+    "userStories": [
+      "Jako przewoźnik chcę dodać przystanek na mapie, aby przypisać go do linii.",
+      "Jako przewoźnik chcę edytować nazwę przystanku, jeśli się zmieniła."
+    ],
+    "flow": "1. Przewoźnik klika na mapie lub podaje współrzędne. 2. Wpisuje nazwę. 3. Zapisuje przystanek.",
+    "api": {
+      "endpoints": [
+        "POST /transport/stops",
+        "PUT /transport/stops/{id}",
+        "DELETE /transport/stops/{id}"
+      ],
+      "commands": [
+        "CreateStop",
+        "UpdateStop",
+        "DeleteStop"
+      ],
+      "validations": [
+        "Nazwa niepusta",
+        "Koordynaty w obsługiwanym obszarze"
+      ]
+    },
+    "security": "Resource-based: Przewoźnik edytuje tylko swoje przystanki.",
+    "testing": "Unit: Walidacja koordynatów. Integration: CRUD."
+  },
+  {
+    "id": "FEAT-TRANS-02",
+    "name": "Tworzenie Rozkładów Jazdy",
+    "module": "Transport",
+    "userStories": [
+      "Jako przewoźnik chcę zdefiniować linię i warianty trasy.",
+      "Jako przewoźnik chcę wprowadzić godziny odjazdów dla wariantu."
+    ],
+    "flow": "1. Definicja Linii. 2. Definicja Wariantu (sekwencja przystanków). 3. Wypełnienie tabeli godzinowej.",
+    "api": {
+      "endpoints": [
+        "POST /transport/lines",
+        "POST /transport/lines/{id}/variants",
+        "POST /transport/schedules"
+      ],
+      "commands": [
+        "CreateLine",
+        "DefineRouteVariant",
+        "UpdateSchedule"
+      ]
+    },
+    "security": "Resource-based.",
+    "testing": "Integration: Pełny cykl dodania rozkładu."
+  },
+  {
+    "id": "FEAT-TRANS-03",
+    "name": "Publiczny Dostęp do Rozkładów",
+    "module": "Transport",
+    "userStories": [
+      "Jako pasażer chcę znaleźć przystanek i zobaczyć tabliczkę odjazdów."
+    ],
+    "flow": "1. Wyszukaj przystanek. 2. Pobierz szczegóły. 3. Pobierz odjazdy (grupowane liniami).",
+    "api": {
+      "endpoints": [
+        "GET /transport/stops",
+        "GET /transport/stops/{id}/departures"
+      ],
+      "queries": [
+        "GetStopsByLocation",
+        "GetStopDepartures"
+      ]
+    },
+    "security": "Public (bez auth dla pasażera - opcja, lub token gościa).",
+    "testing": "Performance: Czas odpowiedzi < 1.5s."
+  },
+  {
+    "id": "FEAT-TRANS-04",
+    "name": "Generowanie PDF na Słupek",
+    "module": "Transport",
+    "userStories": [
+      "Jako przewoźnik chcę wydrukować estetyczny rozkład na przystanek."
+    ],
+    "flow": "1. Wybierz przystanek i linie. 2. Wybierz szablon. 3. Generuj PDF.",
+    "api": {
+      "endpoints": [
+        "POST /transport/stops/{id}/pdf"
+      ],
+      "commands": [
+        "GenerateStopTimetablePdf"
+      ]
+    },
+    "security": "Przewoźnik only.",
+    "testing": "Unit: Poprawność layoutu PDF (snapshot tests)."
+  },
+  {
+    "id": "FEAT-TRANS-05",
+    "name": "Real-Time GPS Ingestion",
+    "module": "Transport",
+    "userStories": [
+      "Jako system chcę przyjmować dane GPS z pojazdów, aby pokazać opóźnienia."
+    ],
+    "flow": "Aplikacja kierowcy/GPS wysyła POST z pozycją co X sekund.",
+    "api": {
+      "endpoints": [
+        "POST /transport/vehicles/positions"
+      ],
+      "commands": [
+        "UpdateVehiclePosition"
+      ]
+    },
+    "security": "API Key lub Token pojazdu.",
+    "testing": "Load test: High throughput ingestion."
+  },
+  {
+    "id": "FEAT-PASS-01",
+    "name": "Ulubione i Dom/Praca",
+    "module": "Passenger",
+    "userStories": [
+      "Jako pasażer chcę mieć szybki dostęp do przystanków z których często jeżdżę."
+    ],
+    "flow": "Dodaj do ulubionych -> Wyświetl na dashboardzie.",
+    "api": {
+      "endpoints": [
+        "POST /passenger/favorites",
+        "GET /passenger/favorites"
+      ],
+      "commands": [
+        "AddFavoriteStop"
+      ],
+      "queries": [
+        "GetUserFavorites"
+      ]
+    },
+    "security": "User context required.",
+    "testing": "Integration."
+  }
+]
+
