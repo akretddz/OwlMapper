@@ -1,5 +1,7 @@
 {
   "account": {
-    "enabled": true
+    "module": {
+      "isEnabled": true
+    }
   }
 }

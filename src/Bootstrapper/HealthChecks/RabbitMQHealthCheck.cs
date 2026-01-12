@@ -5,7 +5,9 @@ namespace Bootstrapper.HealthChecks
 {
     public sealed class RabbitMQHealthCheck(IConfiguration configuration) : IHealthCheck
     {
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+        public async Task<HealthCheckResult> CheckHealthAsync(
+            HealthCheckContext context, 
+            CancellationToken cancellationToken = default)
         {
             var connectionString = configuration
                 .GetSection("MessageBroker")
@@ -20,7 +22,7 @@ namespace Bootstrapper.HealthChecks
                 };
 
                 await using var connection = await factory.CreateConnectionAsync(cancellationToken);
-                await using var channel = await connection.CreateChannelAsync(cancellationToken: cancellationToken);
+                await using var channel    = await connection.CreateChannelAsync(cancellationToken: cancellationToken);
 
                 return HealthCheckResult.Healthy();
             }

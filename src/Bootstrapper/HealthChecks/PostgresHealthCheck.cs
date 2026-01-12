@@ -5,7 +5,9 @@ namespace Bootstrapper.HealthChecks
 {
     public sealed class PostgresHealthCheck(IConfiguration configuration) : IHealthCheck
     {
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+        public async Task<HealthCheckResult> CheckHealthAsync(
+            HealthCheckContext context, 
+            CancellationToken cancellationToken = default)
         {
             var connectionString = configuration
                 .GetSection("Database")
@@ -23,7 +25,7 @@ namespace Bootstrapper.HealthChecks
 
                 return HealthCheckResult.Healthy();
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return HealthCheckResult.Unhealthy();
             }

@@ -1,15 +1,7 @@
-﻿using Account;
-using System.Reflection;
-
-namespace Bootstrapper
+﻿namespace Bootstrapper
 {
     public static class Consts
     {
-        public static readonly Assembly[] ModulesAssembliesArray =
-        [
-            typeof(AccountModule).Assembly,
-        ];
-
         public static class HealthChecks
         {
             public const string Default  = "Default";

@@ -4,14 +4,16 @@ namespace Bootstrapper.HealthChecks
 {
     public class DefaultHealthCheck : IHealthCheck
     {
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+        public async Task<HealthCheckResult> CheckHealthAsync(
+            HealthCheckContext context, 
+            CancellationToken cancellationToken = default)
         {
             try
             {
                 return await Task.FromResult(HealthCheckResult.Healthy());
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return await Task.FromResult(HealthCheckResult.Unhealthy());
             }
