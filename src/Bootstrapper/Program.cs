@@ -20,7 +20,6 @@ builder.Services
     .AddCheck<PostgresHealthCheck>(HealthChecks.Postgres)
     .AddCheck<RabbitMQHealthCheck>(HealthChecks.RabbitMQ);
 
-
 var app = builder.Build();
 
 app.MapGet("/",
