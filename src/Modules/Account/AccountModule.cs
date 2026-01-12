@@ -1,19 +1,22 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Modules;
 using System.Reflection;
+using Account.Identity;
 
-namespace Account.Identity.Core
+namespace Account
 {
-    public static class AccountModule
+    public sealed class AccountModule : IModule
     {
-        private static readonly Assembly _module = typeof(AccountModule).Assembly;
+        private readonly Assembly _module = typeof(AccountModule).Assembly;
 
-        public static void Register(this IServiceCollection services)
-            => services.AddInfrastructure(_module);
+        public string Name => "Account";
 
-        public static void Use(IApplicationBuilder app)
+        public string Path => "account-module";
+
+        public void Register(IServiceCollection services, IConfiguration configuration)
         {
-            
+            services.AddAccountIdentity(configuration);
         }
     }
 }

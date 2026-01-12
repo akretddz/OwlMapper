@@ -1,3 +1,5 @@
 {
-  "isEnabled": true"
+  "account": {
+    "isEnabled": true
+  }
 }

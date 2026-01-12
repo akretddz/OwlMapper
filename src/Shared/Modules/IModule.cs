@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Shared.Modules
 {
     public interface IModule
     {
-        void Register(IServiceCollection services);
-        void Use(IApplicationBuilder app);
+        string Name { get; }
+        string Path { get; }
+
+        void Register(IServiceCollection services, IConfiguration configuration);
     }
 }

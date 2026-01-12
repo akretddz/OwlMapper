@@ -13,6 +13,8 @@ builder.Services
 
 var app = builder.Build();
 
+// app.MapGet(ze zmiennym śr.);
+
 app.MapHealthChecks("health");
 
-app.Run();
+await app.RunAsync();
