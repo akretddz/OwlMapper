@@ -6,8 +6,7 @@ using static Shared.Consts;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true);
+builder.ConfigureModules();
 
 var assembliesList = ModuleLoader.LoadAssemblies(builder.Configuration);
 var modulesList    = ModuleLoader.LoadModules(assembliesList);
@@ -29,6 +28,6 @@ app.MapGet("/",
         ApplicationInfo.ApplicationCode,
     }));
 
-app.MapHealthChecks("health");
+app.MapHealthChecks("/health");
 
 await app.RunAsync();

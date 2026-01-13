@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Npgsql;
+using System;
 
 namespace Bootstrapper.HealthChecks
 {
@@ -25,9 +26,9 @@ namespace Bootstrapper.HealthChecks
 
                 return HealthCheckResult.Healthy();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                return HealthCheckResult.Unhealthy();
+                return HealthCheckResult.Unhealthy(description: exception.Message, exception: exception);
             }
         }
     }

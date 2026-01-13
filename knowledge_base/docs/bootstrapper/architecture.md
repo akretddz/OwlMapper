@@ -40,7 +40,6 @@ Health-checki respektują flagi konfiguracyjne.
 Kluczowe sekcje: 
 - `database.postgres.connectionString`
 - `messaging`
-- `caching.redis`
 - `serilog`
 
 ### Budowanie i uruchamianie
@@ -50,6 +49,5 @@ Kluczowe sekcje:
 ### Dane zależne (wewnętrzne oczekiwania)
 - Postgres (DB) 
 - RabbitMQ (gdy włączony) 
-- Redis (gdy włączony)
 - Wszystkie parametry definiowane w `appsettings*.json`
 

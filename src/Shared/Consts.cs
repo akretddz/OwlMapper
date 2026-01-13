@@ -12,11 +12,7 @@ namespace Shared
             public const string Name            = "OwlMapper";
             public const string ApplicationCode = "owlmapper.api.core";
         }
-        public static class Assemblies
-        {
-            public const string ModuleAssemblyPrefix = "OwlMapper.Modules";
-        }
-        
+
         public static class Configuration
         {
             public static class Sections
@@ -27,7 +23,11 @@ namespace Shared
             {
                 public const string IsEnabled = "isEnabled";
             }
-            
         }
+
+        public static readonly string[] ModuleNamesArray =
+        [
+            "Account",
+        ];
     }
 }

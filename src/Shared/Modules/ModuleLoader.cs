@@ -11,8 +11,8 @@ namespace Shared.Modules
         {
             var assembliesList         = AppDomain.CurrentDomain.GetAssemblies().ToList();
             var locationsArray         = GetStaticAssembliesLocations(assembliesList);
-            var moduleFilesList        = GetModuleFiles(assembliesList);
-            var enabledModuleFilesList = moduleFilesList.GetEnabledModuleFiles(configuration);
+            var locationsFileNamesList = GetLocationsFileNames(locationsArray);
+            var enabledModuleFilesList = locationsFileNamesList.GetEnabledModuleFiles(configuration);
 
             enabledModuleFilesList.ForEach(file =>
             {
@@ -42,13 +42,13 @@ namespace Shared.Modules
                    .Where(a => a.IsDynamic is false)
                    .Select(a => a.Location)];
 
-        private static List<string> GetModuleFiles(List<Assembly> assembliesList)
+        private static List<string> GetLocationsFileNames(string[] locationsArray)
             => [.. Directory
                 .GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
                 .Where(file =>
-                    assembliesList
-                        .Any(assembly => string.Equals(
-                             assembly.Location,
+                    !locationsArray
+                        .Any(location => string.Equals(
+                             location,
                              file,
                              StringComparison.InvariantCultureIgnoreCase)))];
 
@@ -60,17 +60,15 @@ namespace Shared.Modules
 
             foreach (var moduleFile in moduleFiles)
             {
-                if (!moduleFile.Contains(Assemblies.ModuleAssemblyPrefix))
+                if (!ModuleNamesArray.Any(moduleFile.Contains))
                 {
                     continue;
                 }
 
-                var moduleName = moduleFile
-                    .Split(Assemblies.ModuleAssemblyPrefix)[1]
-                    .Split('.')[0];
+                var moduleFileName = Path.GetFileNameWithoutExtension(moduleFile);
 
                 var isEnabled = configuration
-                    .GetValue<bool>($"{moduleName}:{Configuration.Properties.IsEnabled}"
+                    .GetValue<bool>($"{moduleFileName}:{Configuration.Sections.Module}:{Configuration.Properties.IsEnabled}"
                     .ToLowerInvariant());
 
                 if (isEnabled)
