@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OwlMapper.Shared\OwlMapper.Shared.csproj" />
+    <ProjectReference Include="..\OwlMapper.Modules.Sample\OwlMapper.Modules.Sample.csproj" />
   </ItemGroup>
 
 </Project>

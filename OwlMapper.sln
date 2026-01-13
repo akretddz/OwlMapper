@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwlMapper.Bootstrapper", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwlMapper.Shared", "src\OwlMapper.Shared\OwlMapper.Shared.csproj", "{BB5D24D2-04C5-43A2-9A51-5BD61F5D061D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwlMapper.Modules.Sample", "src\OwlMapper.Modules.Sample\OwlMapper.Modules.Sample.csproj", "{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,18 @@ Global
 		{BB5D24D2-04C5-43A2-9A51-5BD61F5D061D}.Release|x64.Build.0 = Release|Any CPU
 		{BB5D24D2-04C5-43A2-9A51-5BD61F5D061D}.Release|x86.ActiveCfg = Release|Any CPU
 		{BB5D24D2-04C5-43A2-9A51-5BD61F5D061D}.Release|x86.Build.0 = Release|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Debug|x64.Build.0 = Debug|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Debug|x86.Build.0 = Debug|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Release|x64.ActiveCfg = Release|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Release|x64.Build.0 = Release|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Release|x86.ActiveCfg = Release|Any CPU
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +64,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{EC379050-4C2E-4102-940B-E0DFCA0CDE63} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{BB5D24D2-04C5-43A2-9A51-5BD61F5D061D} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{3BCB758D-2DE1-4737-8C2A-66E0EAC214A5} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal
