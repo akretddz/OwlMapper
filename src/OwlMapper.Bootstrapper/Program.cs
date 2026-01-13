@@ -6,11 +6,17 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog
+// Note: ReadFrom.Configuration causes the application to hang during startup.
+// Using direct configuration for now. Seq sink can be added when Seq is available.
 Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
+    .WriteTo.Console()
+    .MinimumLevel.Information()
+    .Enrich.FromLogContext()
     .CreateLogger();
 
 builder.Host.UseSerilog();
+
+Log.Information("Configuring services...");
 
 // Add services to the container
 builder.Services.AddControllers();
@@ -47,15 +53,6 @@ if (!string.IsNullOrEmpty(rabbitmqConnectionString))
 // Load modules
 LoadModules(builder.Services, builder.Configuration);
 
-// Configure HTTPS to listen on port 2137
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenLocalhost(2137, listenOptions =>
-    {
-        listenOptions.UseHttps();
-    });
-});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
@@ -71,10 +68,10 @@ app.MapGet("/", () =>
     var applicationName = Environment.GetEnvironmentVariable("APPLICATION_NAME") ?? "OwlMapper";
     var applicationIdentifier = Environment.GetEnvironmentVariable("APPLICATION_IDENTIFIER") ?? "bootstrapper";
     
-    return Results.Json(new
+    return Results.Json(new Dictionary<string, string>
     {
-        APPLICATION_NAME = applicationName,
-        APPLICATION_IDENTIFIER = applicationIdentifier
+        { "APPLICATION_NAME", applicationName },
+        { "APPLICATION_IDENTIFIER", applicationIdentifier }
     });
 });
 
@@ -83,8 +80,9 @@ ConfigureModulesPipeline(app);
 
 try
 {
-    Log.Information("Starting OwlMapper Bootstrapper");
+    Log.Information("Starting OwlMapper Bootstrapper on http://localhost:2137");
     app.Run();
+    Log.Information("Application stopped normally");
 }
 catch (Exception ex)
 {
