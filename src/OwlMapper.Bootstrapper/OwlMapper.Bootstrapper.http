@@ -1,0 +1,6 @@
+@OwlMapper.Bootstrapper_HostAddress = http://localhost:5042
+
+GET {{OwlMapper.Bootstrapper_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

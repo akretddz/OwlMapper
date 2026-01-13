@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "GkpPsR8dSQM=",
+  "success": true,
+  "projectFilePath": "/home/runner/work/OwlMapper/OwlMapper/src/OwlMapper.Bootstrapper/OwlMapper.Bootstrapper.csproj",
+  "expectedPackageFiles": [
+    "/home/runner/.nuget/packages/microsoft.aspnetcore.openapi/10.0.1/microsoft.aspnetcore.openapi.10.0.1.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.openapi/2.0.0/microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
