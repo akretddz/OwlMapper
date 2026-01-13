@@ -39,12 +39,14 @@ if (!string.IsNullOrEmpty(postgresConnectionString))
 var rabbitmqConnectionString = builder.Configuration["HealthChecks:RabbitMQ:ConnectionString"];
 if (!string.IsNullOrEmpty(rabbitmqConnectionString))
 {
+    // Store connection string in a local variable to avoid closure issues
+    var rabbitMqUri = rabbitmqConnectionString;
     healthChecksBuilder.AddRabbitMQ(
         sp =>
         {
-            var factory = new RabbitMQ.Client.ConnectionFactory();
-            factory.Uri = new Uri(rabbitmqConnectionString);
-            return factory.CreateConnectionAsync().GetAwaiter().GetResult();
+            var factory = new RabbitMQ.Client.ConnectionFactory { Uri = new Uri(rabbitMqUri) };
+            // Using Task.Run to avoid blocking the thread pool during health check registration
+            return Task.Run(async () => await factory.CreateConnectionAsync()).GetAwaiter().GetResult();
         },
         name: "rabbitmq"
     );
@@ -80,7 +82,7 @@ ConfigureModulesPipeline(app);
 
 try
 {
-    Log.Information("Starting OwlMapper Bootstrapper on http://localhost:2137");
+    Log.Information("Starting OwlMapper Bootstrapper on https://localhost:2137");
     app.Run();
     Log.Information("Application stopped normally");
 }
@@ -94,12 +96,16 @@ finally
 }
 
 // Module loading methods
-static void LoadModules(IServiceCollection services, IConfiguration configuration)
+static IEnumerable<Type> GetAvailableModuleTypes()
 {
-    // Get all types that implement IModule
-    var moduleTypes = AppDomain.CurrentDomain.GetAssemblies()
+    return AppDomain.CurrentDomain.GetAssemblies()
         .SelectMany(assembly => assembly.GetTypes())
         .Where(type => typeof(IModule).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
+}
+
+static void LoadModules(IServiceCollection services, IConfiguration configuration)
+{
+    var moduleTypes = GetAvailableModuleTypes();
 
     foreach (var moduleType in moduleTypes)
     {
@@ -122,10 +128,7 @@ static void LoadModules(IServiceCollection services, IConfiguration configuratio
 
 static void ConfigureModulesPipeline(WebApplication app)
 {
-    // Get all types that implement IModule
-    var moduleTypes = AppDomain.CurrentDomain.GetAssemblies()
-        .SelectMany(assembly => assembly.GetTypes())
-        .Where(type => typeof(IModule).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
+    var moduleTypes = GetAvailableModuleTypes();
 
     foreach (var moduleType in moduleTypes)
     {
