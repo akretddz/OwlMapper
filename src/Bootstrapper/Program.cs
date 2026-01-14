@@ -20,13 +20,13 @@ builder.Services
 
 var app = builder.Build();
 
+app.MapHealthChecks("/health");
+
 app.MapGet("/",
     context => context.Response.WriteAsJsonAsync(new
     {
         ApplicationInfo.Name,
         ApplicationInfo.ApplicationCode,
     }));
-
-app.MapHealthChecks("/health");
 
 await app.RunAsync();
