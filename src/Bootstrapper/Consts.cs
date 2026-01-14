@@ -7,6 +7,8 @@
             public const string Default  = "Default";
             public const string Postgres = "Postgres";
             public const string RabbitMQ = "RabbitMQ";
+
+            public const string PostgresDbCheckQuery = "SELECT 1";
         }
     }
 }

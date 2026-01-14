@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-
-namespace Shared
+﻿namespace Shared
 {
     public static class Consts
     {
         public static class ApplicationInfo 
         {
-            public const string Name            = "OwlMapper";
-            public const string ApplicationCode = "owlmapper.api.core";
+            public static readonly string Name            = Environment.GetEnvironmentVariable("APPLICATION_NAME") ?? "OwlMapper";
+            public static readonly string ApplicationCode = Environment.GetEnvironmentVariable("APPLICATION_IDENTIFIER") ?? "owlmapper.bootstrapper";
         }
 
         public static class Configuration
         {
             public static class Sections
             {
-                public const string Module = "module";
+                public const string Module    = "module";
+                public const string Database  = "database";
+                public const string Postgres  = "postgres";
+                public const string Messaging = "messaging";
+                public const string Rabbit    = "rabbitMQ";
+
             }
             public static class Properties
             {
-                public const string IsEnabled = "isEnabled";
+                public const string IsEnabled        = "isEnabled";
+                public const string ConnectionString = "connectionString";
             }
         }
 

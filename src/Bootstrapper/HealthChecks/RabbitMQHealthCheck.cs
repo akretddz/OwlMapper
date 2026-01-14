@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using RabbitMQ.Client;
 
+using static Shared.Consts.Configuration.Sections;
+using static Shared.Consts.Configuration.Properties;
+
 namespace Bootstrapper.HealthChecks
 {
     public sealed class RabbitMQHealthCheck(IConfiguration configuration) : IHealthCheck
@@ -10,9 +13,9 @@ namespace Bootstrapper.HealthChecks
             CancellationToken cancellationToken = default)
         {
             var connectionString = configuration
-                .GetSection("MessageBroker")
-                .GetSection("RabbitMQ")
-                .GetValue("ConnectionString", string.Empty);
+                .GetSection(Messaging)
+                .GetSection(Rabbit)
+                .GetValue(ConnectionString, string.Empty);
 
             try
             {

@@ -1,6 +1,11 @@
-@Bootstrapper_HostAddress = http://localhost:5139
+@Base_URL = https://localhost:2137
 
-GET {{Bootstrapper_HostAddress}}/weatherforecast/
+GET {{Base_URL}}
+Accept: application/json
+
+###
+
+GET {{Base_URL}}/health
 Accept: application/json
 
 ###

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Npgsql;
-using System;
+
+using static Shared.Consts.Configuration.Sections;
+using static Shared.Consts.Configuration.Properties;
 
 namespace Bootstrapper.HealthChecks
 {
@@ -11,10 +13,10 @@ namespace Bootstrapper.HealthChecks
             CancellationToken cancellationToken = default)
         {
             var connectionString = configuration
-                .GetSection("Database")
-                .GetSection("Postgres")
-                .GetValue("ConnectionString", string.Empty);
-            var dbCheckQuery = "SELECT 1";
+                .GetSection(Database)
+                .GetSection(Postgres)
+                .GetValue(ConnectionString, string.Empty);
+            var dbCheckQuery = Consts.HealthChecks.PostgresDbCheckQuery;
 
             try
             {

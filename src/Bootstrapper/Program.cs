@@ -15,7 +15,6 @@ modulesList.ForEach(module => module.Register(builder.Services, builder.Configur
 
 builder.Services
     .AddHealthChecks()
-    .AddCheck<DefaultHealthCheck>(HealthChecks.Default)
     .AddCheck<PostgresHealthCheck>(HealthChecks.Postgres)
     .AddCheck<RabbitMQHealthCheck>(HealthChecks.RabbitMQ);
 

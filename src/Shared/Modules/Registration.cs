@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using System;
 using System.Text.RegularExpressions;
 
 namespace Shared.Modules
@@ -12,30 +10,25 @@ namespace Shared.Modules
             this WebApplicationBuilder builder
             )
         {
-#pragma warning disable ASP0013 // Suggest switching from using Configure methods to WebApplicationBuilder.Configuration
-            builder.Host.ConfigureAppConfiguration((context, config) =>
+            var solutionRootPath = GetSolutionDirectory(builder.Environment.ContentRootPath);
+
+            if (string.IsNullOrWhiteSpace(solutionRootPath))
             {
-                var solutionRootPath = GetSolutionDirectory(context.HostingEnvironment.ContentRootPath);
+                return builder;
+            }
 
-                if (string.IsNullOrWhiteSpace(solutionRootPath))
-                {
-                    return;
-                }
+            var environmentName = builder.Environment.EnvironmentName;
 
-                var environmentName = context.HostingEnvironment.EnvironmentName;
+            foreach (var settings in GetSettings(solutionRootPath, "*.module")
+                .Where(settings => ModuleConfigRegex().IsMatch(settings)))
+            {
+                builder.Configuration.AddJsonFile(settings, optional: false, reloadOnChange: true);
+            }
 
-                foreach (var settings in GetSettings(solutionRootPath, "*.module")
-                    .Where(settings => ModuleConfigRegex().IsMatch(settings)))
-                {
-                    config.AddJsonFile(settings, optional: false, reloadOnChange: true);
-                }
-
-                foreach (var settings in GetSettings(solutionRootPath, $"*.{environmentName}"))
-                {
-                    config.AddJsonFile(settings, optional: true, reloadOnChange: true);
-                }
-            });
-#pragma warning restore ASP0013 // Suggest switching from using Configure methods to WebApplicationBuilder.Configuration
+            foreach (var settings in GetSettings(solutionRootPath, $"*.{environmentName}"))
+            {
+                builder.Configuration.AddJsonFile(settings, optional: true, reloadOnChange: true);
+            }
 
             return builder;
         }
