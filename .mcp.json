@@ -1,0 +1,18 @@
+{
+  "inputs": [
+    {
+       "type": "copilot_space",
+       "name": "OwlMapper",
+      "owner": "akretddz"
+    }
+  ],
+  "servers": {
+    "github": {
+         "type": "sse",
+          "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "X-MCP-Toolsets": "default,copilot_spaces"
+      }
+    }
+  }
+}

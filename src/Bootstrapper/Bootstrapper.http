@@ -1,0 +1,11 @@
+@Base_URL = https://localhost:2137
+
+GET {{Base_URL}}
+Accept: application/json
+
+###
+
+GET {{Base_URL}}/health
+Accept: application/json
+
+###
