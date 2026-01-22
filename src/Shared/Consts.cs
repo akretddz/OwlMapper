@@ -2,7 +2,7 @@
 {
     public static class Consts
     {
-        public static class ApplicationInfo 
+        public static class ApplicationInfo
         {
             public static readonly string Name            = Environment.GetEnvironmentVariable("APPLICATION_NAME") ?? "OwlMapper";
             public static readonly string ApplicationCode = Environment.GetEnvironmentVariable("APPLICATION_IDENTIFIER") ?? "owlmapper.bootstrapper";

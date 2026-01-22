@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Npgsql;
-
-using static Shared.Consts.Configuration.Sections;
 using static Shared.Consts.Configuration.Properties;
+using static Shared.Consts.Configuration.Sections;
 
 namespace Bootstrapper.HealthChecks
 {
     public sealed class PostgresHealthCheck(IConfiguration configuration) : IHealthCheck
     {
         public async Task<HealthCheckResult> CheckHealthAsync(
-            HealthCheckContext context, 
+            HealthCheckContext context,
             CancellationToken cancellationToken = default)
         {
             var connectionString = configuration

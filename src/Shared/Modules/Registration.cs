@@ -49,7 +49,7 @@ namespace Shared.Modules
             return directory?.FullName;
         }
 
-        private static Regex ModuleConfigRegex() 
+        private static Regex ModuleConfigRegex()
             => new(@"[^.]+\.module\.json$", RegexOptions.IgnoreCase);
     }
 }
