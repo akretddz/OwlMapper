@@ -21,7 +21,6 @@
 		<PackageReference Include="Serilog.AspNetCore"/>
 		<PackageReference Include="Serilog.Sinks.Console"/>
 		<PackageReference Include="Serilog.Sinks.File"/>
-		<PackageReference Include="Microsoft.EntityFrameworkCore"/>
 		<PackageReference Include="Microsoft.Extensions.Configuration"/>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
 	</ItemGroup>
