@@ -38,7 +38,7 @@ jobs:
         if: success()
         shell: cmd
         run:
-          nuget install NUnit.Runners -ExcludeVersion -o .\packages
+          nuget install NUnit.ConsoleRunner -Version 3.13.0 -DirectDownload -OutputDirectory .
 
       - name: Run Unit Tests
         shell: bash
