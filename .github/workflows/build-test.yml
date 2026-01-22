@@ -35,15 +35,7 @@ jobs:
         run: dotnet format --verify-no-changes --verbosity diagnostic
 
       - name: Run Unit Tests
-        shell: bash
-        run: |
-          mapfile TEST_PROJECTS < <(find . -name "*.UnitTests.*.csproj")
-          if [ ${#TEST_PROJECTS[@]} -eq 0 ]; then
-            echo "No unit test projects found - skipping tests."
-            exit 0
-          fi
+        run: dotnet test --filter UnitTests
 
-          for proj in "${TEST_PROJECTS[@]}"; do
-            echo "Running unit tests: $proj"
-            dotnet test "$proj" -c Release
-          done
+      - name: Run Architecture Tests
+        run: dotnet test --filter ArchitectureTests
