@@ -3,6 +3,8 @@ root = true
 # All files
 [*]
 indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
 
 # Xml files
 [*.xml]
@@ -17,15 +19,10 @@ indent_size = 2
 indent_size = 4
 tab_width = 4
 
-# New line preferences
-insert_final_newline = false
-
 #### .NET Coding Conventions ####
-[*.{cs,vb}]
+[*.{cs}]
 
 # Organize usings
-dotnet_separate_import_directive_groups = true
-dotnet_sort_system_directives_first = true
 file_header_template = unset
 
 # this. and Me. preferences
@@ -115,7 +112,7 @@ csharp_preferred_modifier_order = public,private,protected,internal,file,const,s
 csharp_style_prefer_readonly_struct = true:suggestion
 csharp_style_prefer_readonly_struct_member = true:suggestion
 
-# Code-block preferences - ZAWSZE uøywaj nawiasÛw klamrowych
+# Code-block preferences - ZAWSZE u≈ºywaj nawias√≥w klamrowych
 csharp_prefer_braces = true:error
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_style_namespace_declarations = file_scoped:suggestion
@@ -170,7 +167,7 @@ csharp_space_after_comma = true
 csharp_space_after_dot = false
 csharp_space_after_keywords_in_control_flow_statements = true
 csharp_space_after_semicolon_in_for_statement = true
-csharp_space_around_binary_operators = before_and_after
+csharp_space_around_binary_operators = ignore
 csharp_space_around_declaration_statements = false
 csharp_space_before_colon_in_inheritance_clause = true
 csharp_space_before_comma = false
