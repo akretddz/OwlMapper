@@ -25,11 +25,11 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
 
-      - name: Restore Bootstrapper
-        run: dotnet restore ./src/Bootstrapper/Bootstrapper.csproj
+      - name: Restore solution
+        run: dotnet restore OwlMapper.slnx
 
-      - name: Build Bootstrapper
-        run: dotnet build --configuration Release --no-restore ./src/Bootstrapper/Bootstrapper.csproj
+      - name: Build solution
+        run: dotnet build OwlMapper.slnx --configuration Release --no-restore
 
       - name: Check Format
         run: dotnet format OwlMapper.slnx --verify-no-changes --verbosity diagnostic
