@@ -30,8 +30,8 @@ namespace Shared.Modules
         public static List<IModule> LoadModules(List<Assembly> assembliesList)
         => [.. assembliesList
             .SelectMany(a => a.GetTypes())
-            .Where(type => typeof(IModule).IsAssignableFrom(type) && 
-                           !type.IsInterface && 
+            .Where(type => typeof(IModule).IsAssignableFrom(type) &&
+                           !type.IsInterface &&
                            !type.IsAbstract)
             .OrderBy(type => type.Name)
             .Select(Activator.CreateInstance)

@@ -4,15 +4,10 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	  <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Shared.csproj" />
