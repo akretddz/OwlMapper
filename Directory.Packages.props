@@ -5,6 +5,7 @@
       <AnalysisLevel>latest</AnalysisLevel>
       <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
+
   <ItemGroup>
       <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
       <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
@@ -14,7 +15,5 @@
       <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
       <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
       <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
-      <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
-      <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
   </ItemGroup>
 </Project>
