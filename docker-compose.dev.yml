@@ -28,7 +28,7 @@
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - backend
-  logger:
+  logging:
     image: datalust/seq
     container_name: dev.seq
     restart: always
