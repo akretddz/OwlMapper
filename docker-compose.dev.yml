@@ -1,0 +1,88 @@
+﻿services:
+  db:
+    image: postgres:18.1-alpine3.23
+    container_name: dev.postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+  message_broker:
+    image: rabbitmq:management-alpine
+    container_name: dev.rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_PLUGINS: rabbitmq_shovel
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - backend
+  logger:
+    image: datalust/seq
+    container_name: dev.seq
+    restart: always
+    environment:
+      ACCEPT_EULA: Y
+      SEQ_PASSWORD: ${SEQ_PASSWORD}
+    ports:
+      - 45341:80
+      - 5341:5341
+    volumes:
+      - seq_data:/data
+    networks:
+      - backend
+  db_admin:
+    image: dpage/pgadmin4
+    container_name: dev.pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - 8080:80
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - backend
+  api:
+    container_name: dev.bootstrapper
+    restart: always
+    build: .
+    environment:
+      - ASPNETCORE_ENVIRONMENT=dev
+      - APPLICATION_IDENTIFIER=owlmapper.bootstrapper
+      - APPLICATION_NAME=OwlMapper
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - 2137:80
+    volumes:
+      - api_data:/app/_files
+    networks:
+      - backend
+    depends_on:
+      - db
+      - message_broker
+      - logger
+      - db_admin
+
+volumes:
+  db_data:
+  rabbitmq_data:
+  seq_data:
+  pgadmin_data:
+  api_data:
+
+networks:
+  backend:
+    driver: bridge

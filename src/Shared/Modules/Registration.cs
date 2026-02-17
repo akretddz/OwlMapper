@@ -41,7 +41,7 @@ namespace Shared.Modules
         private static string? GetSolutionDirectory(string currentPath)
         {
             var directory = new DirectoryInfo(currentPath);
-            while (directory != null && !directory.GetFiles("*.sln").Any())
+            while (directory != null && !directory.GetFiles("*.slnx").Any())
             {
                 directory = directory.Parent;
             }
