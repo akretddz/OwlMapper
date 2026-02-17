@@ -12,19 +12,24 @@ namespace Bootstrapper.HealthChecks
             HealthCheckContext context, 
             CancellationToken cancellationToken = default)
         {
-            var connectionString = configuration
+            var rabbitMqSection = configuration
                 .GetSection(Messaging)
-                .GetSection(Rabbit)
-                .GetValue(ConnectionString, string.Empty);
+                .GetSection(Rabbit);
 
             try
             {
                 var factory = new ConnectionFactory
                 {
-                    Uri = new Uri(connectionString)
+                    Port     = rabbitMqSection.GetValue("port", 5672),
+                    UserName = rabbitMqSection.GetValue<string>("username", "guest"),
+                    Password = rabbitMqSection.GetValue<string>("password", "guest")
                 };
 
-                await using var connection = await factory.CreateConnectionAsync(cancellationToken);
+                var hostNames = rabbitMqSection
+                    .GetSection("hostNames")
+                    .Get<IEnumerable<string>>() ?? ["localhost"];
+
+                await using var connection = await factory.CreateConnectionAsync(hostNames, cancellationToken);
                 await using var channel    = await connection.CreateChannelAsync(cancellationToken: cancellationToken);
 
                 return HealthCheckResult.Healthy();
