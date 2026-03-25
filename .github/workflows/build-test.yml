@@ -1,0 +1,41 @@
+﻿name: Build and Test
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install .NET 10 SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.102'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+
+      - name: Restore solution
+        run: dotnet restore OwlMapper.slnx
+
+      - name: Build solution
+        run: dotnet build OwlMapper.slnx --configuration Release --no-restore
+
+      - name: Check Format
+        run: dotnet format OwlMapper.slnx --verify-no-changes --verbosity diagnostic
+
+      - name: Run Unit Tests
+        run: dotnet test --filter UnitTests
+
+      - name: Run Architecture Tests
+        run: dotnet test --filter ArchitectureTests
