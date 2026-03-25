@@ -1,4 +1,5 @@
 ﻿using Bootstrapper.HealthChecks;
+using Shared;
 using Shared.Modules;
 
 using static Bootstrapper.Consts;
@@ -9,9 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureModules();
 
 var assembliesList = ModuleLoader.LoadAssemblies(builder.Configuration);
-var modulesList    = ModuleLoader.LoadModules(assembliesList);
+var modulesList = ModuleLoader.LoadModules(assembliesList);
 
 modulesList.ForEach(module => module.Register(builder.Services, builder.Configuration));
+
+builder.Services.AddShared(builder.Configuration);
 
 builder.Services
     .AddHealthChecks()
@@ -19,6 +22,8 @@ builder.Services
     .AddCheck<RabbitMQHealthCheck>(HealthChecks.RabbitMQ);
 
 var app = builder.Build();
+
+modulesList.ForEach(module => module.Use(app));
 
 app.MapHealthChecks("/health");
 

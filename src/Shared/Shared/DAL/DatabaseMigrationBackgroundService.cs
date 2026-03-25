@@ -1,0 +1,37 @@
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
+namespace Shared.DAL
+{
+    internal class DatabaseMigrationBackgroundService(
+        IServiceScopeFactory serviceScopeFactory,
+        IConfiguration configuration,
+        ILogger<DatabaseMigrationBackgroundService> logger) : BackgroundService
+    {
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            var shouldMigrate = configuration.GetSection("db").GetValue<bool>("useDatabaseMigrator");
+
+            if (!shouldMigrate)
+            {
+                logger.LogInformation("Database migration is disabled. Skipping migration process.");
+
+                return;
+            }
+
+            using var scope = serviceScopeFactory.CreateScope();
+            var migrators = scope.ServiceProvider.GetServices<IDatabaseMigrator>();
+
+            foreach (var migrator in migrators)
+            {
+                logger.LogInformation("Starting database migration using {MigratorType}.", migrator.GetType().Name);
+
+                await migrator.MigrateAsync(stoppingToken);
+
+                logger.LogInformation("Completed database migration using {MigratorType}.", migrator.GetType().Name);
+            }
+        }
+    }
+}
