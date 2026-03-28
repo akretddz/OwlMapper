@@ -3,7 +3,6 @@
     internal enum IdentityProviderEnum
     {
         Internal,
-        Google,
-        Facebook,
+        Google
     }
 }

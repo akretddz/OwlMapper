@@ -13,13 +13,13 @@ namespace Account.Core.Infrastructure.DAL.Configurations
             builder.ToTable(AccountSecrets);
             builder.HasKey(@as => @as.Id);
 
-            builder.Property(@as => @as.PasswordHash)
-                .IsRequired();
+            builder.Property(@as => @as.Value)
+                .HasConversion<string>();
 
             builder
                 .HasOne(@as => @as.Account)
-                .WithOne(a => a.AccountSecret)
-                .HasForeignKey<AccountSecret>(@as => @as.AccountId)
+                .WithMany(a => a.AccountSecrets)
+                .HasForeignKey(@as => @as.AccountId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

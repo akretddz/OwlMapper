@@ -13,8 +13,7 @@
             public static class Sections
             {
                 public const string Module = "module";
-                public const string Database = "database";
-                public const string Postgres = "postgres";
+                public const string Database = "db";
                 public const string Messaging = "messaging";
                 public const string Rabbit = "rabbitMQ";
 
@@ -23,6 +22,7 @@
             {
                 public const string IsEnabled = "isEnabled";
                 public const string ConnectionString = "connectionString";
+                public const string UseDatabaseMigrator = "useDatabaseMigrator";
             }
         }
 
@@ -30,13 +30,5 @@
         [
             "Account",
         ];
-
-        public static class Databases
-        {
-            public static class DataTypes
-            {
-                public const string Nvarchar20 = "nvarchar(20)";
-            }
-        }
     }
 }

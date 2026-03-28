@@ -21,7 +21,6 @@ namespace Account.Core.Infrastructure.DAL.Configurations
                 .IsUnique();
 
             builder.Property(a => a.Username)
-                .IsRequired()
                 .HasMaxLength(UsernameMaxLength);
 
             builder
@@ -37,8 +36,6 @@ namespace Account.Core.Infrastructure.DAL.Configurations
                 .HasForeignKey(at => at.AccountId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Property(a => a.IsConfirmed).IsRequired();
         }
     }
 }

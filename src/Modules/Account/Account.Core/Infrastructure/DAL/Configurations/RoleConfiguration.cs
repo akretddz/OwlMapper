@@ -13,9 +13,10 @@ namespace Account.Core.Infrastructure.DAL.Configurations
             builder.ToTable(Roles);
             builder.HasKey(r => r.Id);
 
-            builder.HasIndex(r => r.Name)
+            builder.HasIndex(r => r.RoleName)
                 .IsUnique();
-            builder.Property(r => r.Name)
+            builder.Property(r => r.RoleName)
+                .HasConversion<string>()
                 .IsRequired();
         }
     }

@@ -13,7 +13,6 @@ namespace Bootstrapper.HealthChecks
         {
             var connectionString = configuration
                 .GetSection(Database)
-                .GetSection(Postgres)
                 .GetValue(ConnectionString, string.Empty);
             var dbCheckQuery = Consts.HealthChecks.PostgresDbCheckQuery;
 

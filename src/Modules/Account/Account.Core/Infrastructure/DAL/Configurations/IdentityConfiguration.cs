@@ -13,7 +13,7 @@ namespace Account.Core.Infrastructure.DAL.Configurations
             builder.ToTable(Identities);
             builder.HasKey(i => i.Id);
 
-            builder.Property(i => i.IdentityProvider)
+            builder.Property(i => i.Provider)
                 .HasConversion<string>()
                 .IsRequired()
                 .HasMaxLength(20);

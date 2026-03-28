@@ -16,7 +16,6 @@ namespace Shared.DAL
         {
             var connectionString = configuration
                 .GetSection(Database)
-                .GetSection(Postgres)
                 .GetValue(ConnectionString, string.Empty);
 
             services.AddDbContext<TContext>(options =>

@@ -1,4 +1,4 @@
-﻿namespace Shared.Abstractions.Kernel.Types
+﻿namespace Shared.Kernel.Types
 {
     public abstract class AuditableEntity : IAuditableEntity
     {

@@ -26,19 +26,6 @@ namespace Account.Core.Security
             return Convert.ToBase64String(combinedBytes);
         }
 
-        private byte[] HashPassword(string password, byte[] salt)
-        {
-            var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password))
-            {
-                Salt = salt,
-                DegreeOfParallelism = DegreeOfParallelism,
-                Iterations = Iterations,
-                MemorySize = MemorySize
-            };
-
-            return argon2.GetBytes(HashSize);
-        }
-
         public bool VerifyPassword(string password, string hashedPassword)
         {
             byte[] combinedBytes = Convert.FromBase64String(hashedPassword);
@@ -49,6 +36,19 @@ namespace Account.Core.Security
             byte[] newHash = HashPassword(password, salt);
 
             return CryptographicOperations.FixedTimeEquals(hash, newHash);
+        }
+
+        private static byte[] HashPassword(string password, byte[] salt)
+        {
+            var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password))
+            {
+                Salt = salt,
+                DegreeOfParallelism = DegreeOfParallelism,
+                Iterations = Iterations,
+                MemorySize = MemorySize
+            };
+
+            return argon2.GetBytes(HashSize);
         }
     }
 }
