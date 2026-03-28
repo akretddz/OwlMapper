@@ -17,6 +17,7 @@ namespace Shared.DAL
         {
             var shouldMigrate = configuration
                 .GetSection(Database)
+                .GetSection(Postgres)
                 .GetValue<bool>(UseDatabaseMigrator);
 
             if (!shouldMigrate)

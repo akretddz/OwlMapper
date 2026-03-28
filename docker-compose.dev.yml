@@ -1,5 +1,5 @@
 ﻿services:
-  db:
+  database.postgres:
     image: postgres:18.1-alpine3.23
     container_name: dev.postgres
     restart: always
@@ -71,9 +71,9 @@
     networks:
       - backend
     depends_on:
-      - db
+      - database.postgres
       - message_broker
-      - logger
+      - logging
       - db_admin
 
 volumes:

@@ -14,7 +14,7 @@ var modulesList = ModuleLoader.LoadModules(assembliesList);
 
 modulesList.ForEach(module => module.Register(builder.Services, builder.Configuration));
 
-builder.Services.AddShared(builder.Configuration);
+builder.Services.AddShared();
 
 builder.Services
     .AddHealthChecks()

@@ -6,9 +6,10 @@ FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION} AS build
 WORKDIR /src
 
 COPY ["src/Bootstrapper/Bootstrapper.csproj", "src/Bootstrapper/"]
-COPY ["Directory.Packages.props", "src"]
-COPY ["src/Modules/Account/Account.csproj", "src/Modules/Account/"]
-COPY ["src/Shared/Shared.csproj", "src/Shared/"]
+COPY ["Directory.Packages.props", "."]
+COPY ["src/Modules/Account/Account/Account.csproj", "src/Modules/Account/Account/"]
+COPY ["src/Modules/Account/Account.Core/Account.Core.csproj", "src/Modules/Account/Account.Core/"]
+COPY ["src/Shared/Shared/Shared.csproj", "src/Shared/Shared/"]
 RUN dotnet restore "src/Bootstrapper/Bootstrapper.csproj"
 
 COPY . .

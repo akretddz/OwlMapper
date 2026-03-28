@@ -13,7 +13,8 @@
             public static class Sections
             {
                 public const string Module = "module";
-                public const string Database = "db";
+                public const string Database = "database";
+                public const string Postgres = "postgres";
                 public const string Messaging = "messaging";
                 public const string Rabbit = "rabbitMQ";
 

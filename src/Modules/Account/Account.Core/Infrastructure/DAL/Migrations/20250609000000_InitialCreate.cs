@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Account.Core.Infrastructure.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EmailAddress = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    Username = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Username = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     IsConfirmed = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -39,7 +39,7 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdentityProvider = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Provider = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
@@ -56,7 +56,7 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    RoleName = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
@@ -72,7 +72,7 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 schema: "account",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdentityId = table.Column<Guid>(type: "uuid", nullable: false),
                     AccountId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -81,12 +81,50 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountIdentities", x => new { x.Id, x.AccountId });
+                    table.PrimaryKey("PK_AccountIdentities", x => new { x.IdentityId, x.AccountId });
                     table.ForeignKey(
                         name: "FK_AccountIdentities_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalSchema: "account",
                         principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountIdentities_Identities_IdentityId",
+                        column: x => x.IdentityId,
+                        principalSchema: "account",
+                        principalTable: "Identities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountRoles",
+                schema: "account",
+                columns: table => new
+                {
+                    AccountId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountRoles", x => new { x.AccountId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AccountRoles_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalSchema: "account",
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalSchema: "account",
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -97,8 +135,8 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false),
-                    PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: true),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: false),
                     AccountId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -144,83 +182,29 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "AccountRoles",
-                schema: "account",
-                columns: table => new
-                {
-                    AccountId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountRoles", x => new { x.AccountId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AccountRoles_Accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalSchema: "account",
-                        principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AccountRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalSchema: "account",
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AccountIdentityIdentity",
-                schema: "account",
-                columns: table => new
-                {
-                    IdentitiesId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AccountIdentitiesId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AccountIdentitiesAccountId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountIdentityIdentity", x => new { x.IdentitiesId, x.AccountIdentitiesId, x.AccountIdentitiesAccountId });
-                    table.ForeignKey(
-                        name: "FK_AccountIdentityIdentity_AccountIdentities_AccountIdentities~",
-                        columns: x => new { x.AccountIdentitiesId, x.AccountIdentitiesAccountId },
-                        principalSchema: "account",
-                        principalTable: "AccountIdentities",
-                        principalColumns: new[] { "Id", "AccountId" },
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AccountIdentityIdentity_Identities_IdentitiesId",
-                        column: x => x.IdentitiesId,
-                        principalSchema: "account",
-                        principalTable: "Identities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AccountIdentities_AccountId",
                 schema: "account",
                 table: "AccountIdentities",
-                column: "AccountId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AccountIdentityIdentity_AccountIdentitiesId_AccountIdentiti~",
-                schema: "account",
-                table: "AccountIdentityIdentity",
-                columns: new[] { "AccountIdentitiesId", "AccountIdentitiesAccountId" });
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountRoles_RoleId",
                 schema: "account",
                 table: "AccountRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountSecrets_AccountId",
+                schema: "account",
+                table: "AccountSecrets",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountTokens_AccountId",
+                schema: "account",
+                table: "AccountTokens",
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_EmailAddress",
@@ -230,23 +214,10 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccountSecrets_AccountId",
-                schema: "account",
-                table: "AccountSecrets",
-                column: "AccountId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AccountTokens_AccountId",
-                schema: "account",
-                table: "AccountTokens",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Roles_Name",
+                name: "IX_Roles_RoleName",
                 schema: "account",
                 table: "Roles",
-                column: "Name",
+                column: "RoleName",
                 unique: true);
         }
 
@@ -254,7 +225,7 @@ namespace Account.Core.Infrastructure.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AccountIdentityIdentity",
+                name: "AccountIdentities",
                 schema: "account");
 
             migrationBuilder.DropTable(
@@ -267,10 +238,6 @@ namespace Account.Core.Infrastructure.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "AccountTokens",
-                schema: "account");
-
-            migrationBuilder.DropTable(
-                name: "AccountIdentities",
                 schema: "account");
 
             migrationBuilder.DropTable(
