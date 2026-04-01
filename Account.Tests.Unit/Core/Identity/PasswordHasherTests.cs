@@ -5,7 +5,7 @@ namespace Account.Tests.Unit.Core.Identity
     [TestFixture]
     internal class PasswordHasherTests
     {
-        private PasswordHasher _target;
+        private required PasswordHasher _target;
 
         [SetUp]
         public void Before_Each_Test() => _target = new PasswordHasher();
