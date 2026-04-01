@@ -134,8 +134,9 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -246,8 +247,8 @@ namespace Account.Core.Infrastructure.DAL.Migrations
             modelBuilder.Entity("Account.Core.Shared.Entities.AccountIdentity", b =>
                 {
                     b.HasOne("Account.Core.Shared.Entities.Account", "Account")
-                        .WithOne("AccountIdentity")
-                        .HasForeignKey("Account.Core.Shared.Entities.AccountIdentity", "AccountId")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -303,8 +304,6 @@ namespace Account.Core.Infrastructure.DAL.Migrations
 
             modelBuilder.Entity("Account.Core.Shared.Entities.Account", b =>
                 {
-                    b.Navigation("AccountIdentity");
-
                     b.Navigation("AccountRoles");
 
                     b.Navigation("AccountSecrets");

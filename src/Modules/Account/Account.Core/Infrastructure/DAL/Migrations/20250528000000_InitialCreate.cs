@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Account.Core.Infrastructure.DAL.Migrations
 {
     /// <inheritdoc />
+    [Migration("20250528000000_InitialCreate")]
     public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
@@ -135,7 +136,7 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: false),
                     AccountId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),

@@ -1,5 +1,6 @@
 ﻿using Bootstrapper.HealthChecks;
 using Shared;
+using Shared.Exceptions;
 using Shared.Modules;
 
 using static Bootstrapper.Consts;
@@ -22,6 +23,8 @@ builder.Services
     .AddCheck<RabbitMQHealthCheck>(HealthChecks.RabbitMQ);
 
 var app = builder.Build();
+
+app.UseExceptionMiddleware();
 
 modulesList.ForEach(module => module.Use(app));
 
