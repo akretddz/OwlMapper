@@ -4,13 +4,8 @@ using System.Reflection;
 
 namespace Account.Core.Infrastructure.DAL
 {
-    internal class AccountDbContext : DbContext
+    internal class AccountDbContext(DbContextOptions<AccountDbContext> options) : DbContext(options)
     {
-        public AccountDbContext(DbContextOptions<AccountDbContext> options) : base(options)
-        {
-
-        }
-
         internal virtual DbSet<Shared.Entities.Account> Accounts { get; init; }
         internal virtual DbSet<AccountIdentity> AccountIdentities { get; init; }
         internal virtual DbSet<AccountRole> AccountRoles { get; init; }
