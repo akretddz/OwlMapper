@@ -11,7 +11,7 @@ namespace Account.Core.Infrastructure.DAL
         internal virtual DbSet<AccountRole> AccountRoles { get; init; } = null!;
         internal virtual DbSet<AccountSecret> AccountSecrets { get; init; } = null!;
         internal virtual DbSet<AccountToken> AccountTokens { get; init; } = null!;
-        internal virtual DbSet<Identity> Identities { get; init; } = null!;
+        internal virtual DbSet<Shared.Entities.Identity> Identities { get; init; } = null!;
         internal virtual DbSet<Role> Roles { get; init; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
