@@ -6,13 +6,13 @@ namespace Account.Core.Infrastructure.DAL
 {
     internal class AccountDbContext(DbContextOptions<AccountDbContext> options) : DbContext(options)
     {
-        internal virtual DbSet<Shared.Entities.Account> Accounts { get; init; }
-        internal virtual DbSet<AccountIdentity> AccountIdentities { get; init; }
-        internal virtual DbSet<AccountRole> AccountRoles { get; init; }
-        internal virtual DbSet<AccountSecret> AccountSecrets { get; init; }
-        internal virtual DbSet<AccountToken> AccountTokens { get; init; }
-        internal virtual DbSet<Identity> Identities { get; init; }
-        internal virtual DbSet<Role> Roles { get; init; }
+        internal virtual DbSet<Shared.Entities.Account> Accounts { get; init; } = null!;
+        internal virtual DbSet<AccountIdentity> AccountIdentities { get; init; } = null!;
+        internal virtual DbSet<AccountRole> AccountRoles { get; init; } = null!;
+        internal virtual DbSet<AccountSecret> AccountSecrets { get; init; } = null!;
+        internal virtual DbSet<AccountToken> AccountTokens { get; init; } = null!;
+        internal virtual DbSet<Identity> Identities { get; init; } = null!;
+        internal virtual DbSet<Role> Roles { get; init; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
