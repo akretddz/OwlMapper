@@ -1,13 +1,17 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Account.Core.Infrastructure.DAL.Migrations
 {
     /// <inheritdoc />
+<<<<<<<< HEAD:src/Modules/Account/Account.Core/Infrastructure/DAL/Migrations/20250528000000_InitialCreate.cs
     [Migration("20250528000000_InitialCreate")]
     public partial class InitialCreate : Migration
+========
+    public partial class Initial : Migration
+>>>>>>>> ak/OWL5-account-entities:src/Modules/Account/Account.Core/Infrastructure/DAL/Migrations/20260401165310_Initial.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,6 +70,59 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountSecrets",
+                schema: "account",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: false),
+                    AccountId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountSecrets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountSecrets_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalSchema: "account",
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountTokens",
+                schema: "account",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Token = table.Column<string>(type: "text", nullable: false),
+                    TokenType = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Expiration = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    AccountId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountTokens_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalSchema: "account",
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,6 +187,7 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+<<<<<<<< HEAD:src/Modules/Account/Account.Core/Infrastructure/DAL/Migrations/20250528000000_InitialCreate.cs
             migrationBuilder.CreateTable(
                 name: "AccountSecrets",
                 schema: "account",
@@ -183,17 +241,27 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+========
+>>>>>>>> ak/OWL5-account-entities:src/Modules/Account/Account.Core/Infrastructure/DAL/Migrations/20260401165310_Initial.cs
             migrationBuilder.CreateIndex(
                 name: "IX_AccountIdentities_AccountId",
                 schema: "account",
                 table: "AccountIdentities",
-                column: "AccountId");
+                column: "AccountId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountRoles_RoleId",
                 schema: "account",
                 table: "AccountRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_EmailAddress",
+                schema: "account",
+                table: "Accounts",
+                column: "EmailAddress",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountSecrets_AccountId",
@@ -206,13 +274,6 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 schema: "account",
                 table: "AccountTokens",
                 column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Accounts_EmailAddress",
-                schema: "account",
-                table: "Accounts",
-                column: "EmailAddress",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Roles_RoleName",

@@ -3,6 +3,7 @@ using System;
 using Account.Core.Infrastructure.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Account.Core.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    partial class AccountDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260401165310_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,9 +140,8 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -253,8 +255,8 @@ namespace Account.Core.Infrastructure.DAL.Migrations
             modelBuilder.Entity("Account.Core.Shared.Entities.AccountIdentity", b =>
                 {
                     b.HasOne("Account.Core.Shared.Entities.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId")
+                        .WithOne("AccountIdentity")
+                        .HasForeignKey("Account.Core.Shared.Entities.AccountIdentity", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -312,6 +314,8 @@ namespace Account.Core.Infrastructure.DAL.Migrations
 
             modelBuilder.Entity("Account.Core.Shared.Entities.Account", b =>
                 {
+                    b.Navigation("AccountIdentity");
+
                     b.Navigation("AccountRoles");
 
                     b.Navigation("AccountSecrets");
