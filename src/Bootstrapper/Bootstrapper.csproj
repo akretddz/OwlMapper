@@ -12,7 +12,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
     </PackageReference>
-    <PackageReference Include="Npgsql" />
     <ProjectReference Include="..\Modules\Account\Account\Account.csproj" />
     <ProjectReference Include="..\Shared\Shared\Shared.csproj" />
   </ItemGroup>

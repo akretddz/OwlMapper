@@ -1,4 +1,4 @@
-﻿using Account.Core.Abstractions;
+﻿using Account.Core.Identity;
 using Konscious.Security.Cryptography;
 using System.Security.Cryptography;
 using System.Text;

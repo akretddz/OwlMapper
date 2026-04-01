@@ -1,4 +1,4 @@
-﻿namespace Account.Core.Abstractions
+﻿namespace Account.Core.Identity
 {
     internal interface IPasswordHasher
     {

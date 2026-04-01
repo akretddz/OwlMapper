@@ -7,6 +7,6 @@
         internal const int HashSize = 32;
         internal const int DegreeOfParallelism = 8;
         internal const int Iterations = 4;
-        internal const int MemorySize = 1024 * 1024;
+        internal const int MemorySize = 65536;
     }
 }

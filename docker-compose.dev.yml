@@ -58,7 +58,9 @@
   api:
     container_name: dev.bootstrapper
     restart: always
-    build: .
+    build:
+      context: .
+      dockerfile: src/Bootstrapper/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=dev
       - APPLICATION_IDENTIFIER=owlmapper.bootstrapper

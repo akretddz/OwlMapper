@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Account.Core.Infrastructure.Consts.Tables.Names;
+using static Account.Core.Infrastructure.Consts.Validations;
 
 namespace Account.Core.Infrastructure.DAL.Configurations
 {
@@ -17,6 +18,7 @@ namespace Account.Core.Infrastructure.DAL.Configurations
                 .IsUnique();
             builder.Property(r => r.RoleName)
                 .HasConversion<string>()
+                .HasMaxLength(RoleNameMaxLength)
                 .IsRequired();
         }
     }

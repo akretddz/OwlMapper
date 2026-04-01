@@ -13,8 +13,8 @@ namespace Account.Core.Infrastructure.DAL.Configurations
             builder.ToTable(AccountIdentities);
             builder.HasKey(ai => new
             {
-                ai.IdentityId,
-                ai.AccountId
+                ai.AccountId,
+                ai.IdentityId
             });
         }
     }
