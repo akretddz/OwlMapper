@@ -8,12 +8,20 @@
 
   <ItemGroup>
     <PackageReference Include="Konscious.Security.Cryptography.Argon2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="Account" />
     <InternalsVisibleTo Include="Account.Tests.Unit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructure\DAL\Migrations\" />
   </ItemGroup>
 
 </Project>

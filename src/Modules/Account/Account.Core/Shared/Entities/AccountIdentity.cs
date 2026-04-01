@@ -7,6 +7,6 @@ namespace Account.Core.Shared.Entities
         public Guid IdentityId { get; set; }
         public Guid AccountId { get; set; }
         public Account? Account { get; set; }
-        public ICollection<Identity> Identities { get; set; } = [];
+        public Identity? Identity { get; set; }
     }
 }
