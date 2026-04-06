@@ -4,7 +4,7 @@
     {
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ModifiedAt { get; set; }
-        public string? CreatedBy { get; set; }
-        public string? ModifiedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
+        public Guid? ModifiedBy { get; set; }
     }
 }

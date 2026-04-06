@@ -18,6 +18,10 @@ namespace Account.Core.Infrastructure.DAL.Configurations
                 .HasConversion<string>()
                 .HasMaxLength(SecretTypeMaxLength);
 
+            builder.Property(@as => @as.Value)
+                .IsRequired()
+                .HasMaxLength(SecretValueMaxLength);
+
             builder
                 .HasOne(@as => @as.Account)
                 .WithMany(a => a.AccountSecrets)

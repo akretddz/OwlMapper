@@ -24,7 +24,9 @@
             internal const int UsernameMaxLength = 50;
             internal const int RoleNameMaxLength = 7;
             internal const int SecretTypeMaxLength = 12;
+            internal const int SecretValueMaxLength = 255;
             internal const int TokenTypeMaxLength = 20;
+            internal const int TokenMaxLength = 255;
         }
     }
 }

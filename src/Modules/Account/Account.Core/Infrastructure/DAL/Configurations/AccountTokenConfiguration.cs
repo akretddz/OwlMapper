@@ -15,7 +15,8 @@ namespace Account.Core.Infrastructure.DAL.Configurations
             builder.HasKey(at => at.Id);
 
             builder.Property(at => at.Token)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(TokenMaxLength);
 
             builder.Property(at => at.TokenType)
                 .HasConversion<string>()
