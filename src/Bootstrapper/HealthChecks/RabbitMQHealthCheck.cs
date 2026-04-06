@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using RabbitMQ.Client;
-using static Shared.Consts.Configuration.Properties;
+
 using static Shared.Consts.Configuration.Sections;
 
 namespace Bootstrapper.HealthChecks

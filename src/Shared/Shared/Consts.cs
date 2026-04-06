@@ -21,8 +21,9 @@
             }
             public static class Properties
             {
-                public const string IsEnabled        = "isEnabled";
-                public const string ConnectionString = "connectionString";
+                public const string IsEnabled           = "isEnabled";
+                public const string ConnectionString    = "connectionString";
+                public const string UseDatabaseMigrator = "useDatabaseMigrator";
             }
         }
 
