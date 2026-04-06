@@ -35,7 +35,7 @@ jobs:
         run: dotnet format OwlMapper.slnx --verify-no-changes --verbosity diagnostic
 
       - name: Run Unit Tests
-        run: dotnet test --filter UnitTests
+        run: dotnet test --filter Tests.Unit
 
       - name: Run Architecture Tests
         run: dotnet test --filter ArchitectureTests
