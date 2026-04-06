@@ -4,11 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using static Account.Core.Infrastructure.Consts.Tables.Names;
 using static Account.Core.Infrastructure.Consts.Validations;
 
+using AccountEntityType = Account.Core.Shared.Entities.Account;
+
 namespace Account.Core.Infrastructure.DAL.Configurations
 {
-    internal class AccountConfiguration : IEntityTypeConfiguration<Shared.Entities.Account>
+    internal class AccountConfiguration : IEntityTypeConfiguration<AccountEntityType>
     {
-        public void Configure(EntityTypeBuilder<Shared.Entities.Account> builder)
+        public void Configure(EntityTypeBuilder<AccountEntityType> builder)
         {
             builder.ToTable(Accounts);
             builder.HasKey(a => a.Id);

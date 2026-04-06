@@ -1,12 +1,14 @@
-﻿namespace Account.Core.Security
+﻿namespace Account.Core.Identity
 {
     internal static class Consts
     {
-        //DO OBGADANIA
-        internal const int SaltSize = 16;
-        internal const int HashSize = 32;
-        internal const int DegreeOfParallelism = 8;
-        internal const int Iterations = 4;
-        internal const int MemorySize = 65536;
+        internal static class PasswordHasher
+        {
+            internal const int SaltSize            = 16;
+            internal const int HashSize            = 32;
+            internal const int DegreeOfParallelism = 8;
+            internal const int Iterations          = 4;
+            internal const int MemorySize          = 65536;
+        }
     }
 }
