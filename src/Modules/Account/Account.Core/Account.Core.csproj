@@ -20,8 +20,4 @@
     <InternalsVisibleTo Include="Account.Tests.Unit" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\DAL\Migrations\" />
-  </ItemGroup>
-
 </Project>

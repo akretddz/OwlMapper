@@ -1,6 +1,10 @@
+<<<<<<<< HEAD:src/Modules/Account/Account.Core/Infrastructure/DAL/Migrations/20250528000000_InitialCreate.cs
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+========
+﻿#nullable disable
+>>>>>>>> ak/OWL5-account-entities:src/Modules/Account/Account.Core/Infrastructure/DAL/Migrations/20260406124747_Initial.cs
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Account.Core.Infrastructure.DAL.Migrations
 {
@@ -24,8 +28,8 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                     IsConfirmed = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: true),
+                    ModifiedBy = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -41,8 +45,8 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                     Provider = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: true),
+                    ModifiedBy = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,11 +59,11 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    RoleName = table.Column<string>(type: "text", nullable: false),
+                    RoleName = table.Column<string>(type: "character varying(7)", maxLength: 7, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: true),
+                    ModifiedBy = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -72,13 +76,13 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: false),
                     AccountId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
+                    Value = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: true),
+                    ModifiedBy = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -98,14 +102,14 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Token = table.Column<string>(type: "text", nullable: false),
+                    AccountId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Token = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     TokenType = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Expiration = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: true),
+                    ModifiedBy = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -124,16 +128,16 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 schema: "account",
                 columns: table => new
                 {
-                    IdentityId = table.Column<Guid>(type: "uuid", nullable: false),
                     AccountId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdentityId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: true),
+                    ModifiedBy = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountIdentities", x => new { x.IdentityId, x.AccountId });
+                    table.PrimaryKey("PK_AccountIdentities", x => new { x.AccountId, x.IdentityId });
                     table.ForeignKey(
                         name: "FK_AccountIdentities_Accounts_AccountId",
                         column: x => x.AccountId,
@@ -159,8 +163,8 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "text", nullable: true)
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: true),
+                    ModifiedBy = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -187,6 +191,12 @@ namespace Account.Core.Infrastructure.DAL.Migrations
                 table: "AccountIdentities",
                 column: "AccountId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountIdentities_IdentityId",
+                schema: "account",
+                table: "AccountIdentities",
+                column: "IdentityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountRoles_RoleId",

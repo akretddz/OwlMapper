@@ -4,7 +4,7 @@
     {
         DateTime CreatedAt { get; set; }
         DateTime? ModifiedAt { get; set; }
-        string? CreatedBy { get; set; }
-        string? ModifiedBy { get; set; }
+        Guid? CreatedBy { get; set; }
+        Guid? ModifiedBy { get; set; }
     }
 }

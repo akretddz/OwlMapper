@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Account.Core.Infrastructure.Consts.Tables.Names;
+using static Account.Core.Infrastructure.Consts.Validations;
 
 namespace Account.Core.Infrastructure.DAL.Configurations
 {
@@ -13,8 +14,13 @@ namespace Account.Core.Infrastructure.DAL.Configurations
             builder.ToTable(AccountSecrets);
             builder.HasKey(@as => @as.Id);
 
+            builder.Property(@as => @as.Type)
+                .HasConversion<string>()
+                .HasMaxLength(SecretTypeMaxLength);
+
             builder.Property(@as => @as.Value)
-                .HasConversion<string>();
+                .IsRequired()
+                .HasMaxLength(SecretValueMaxLength);
 
             builder
                 .HasOne(@as => @as.Account)

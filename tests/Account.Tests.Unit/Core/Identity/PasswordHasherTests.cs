@@ -1,4 +1,6 @@
-﻿using Account.Core.Security;
+﻿using Account.Core.Identity;
+
+using static Account.Core.Identity.Consts.PasswordHasher;
 
 namespace Account.Tests.Unit.Core.Identity
 {
@@ -38,7 +40,8 @@ namespace Account.Tests.Unit.Core.Identity
             [TestCase("P@ssw0rd!")]
             public void HashPassword_ReturnedHash_HasCorrectLength(string password)
             {
-                const int expectedLength = Consts.SaltSize + Consts.HashSize;
+                const int expectedLength = SaltSize + HashSize;
+
                 var hash = _target.HashPassword(password);
 
                 var bytes = Convert.FromBase64String(hash);
@@ -89,8 +92,8 @@ namespace Account.Tests.Unit.Core.Identity
             {
                 var hash = _target.HashPassword(password);
 
-                var bytes = Convert.FromBase64String(hash);
-                bytes[Consts.SaltSize] ^= 0xFF;
+                var bytes        = Convert.FromBase64String(hash);
+                bytes[SaltSize] ^= 0xFF;
                 var tamperedHash = Convert.ToBase64String(bytes);
                 Assert.That(_target.VerifyPassword(password, tamperedHash), Is.False);
             }
@@ -98,8 +101,8 @@ namespace Account.Tests.Unit.Core.Identity
             [TestCase("password")]
             public void VerifyPassword_TamperedSalt_ReturnsFalse(string password)
             {
-                var hash = _target.HashPassword(password);
-                var bytes = Convert.FromBase64String(hash);
+                var hash         = _target.HashPassword(password);
+                var bytes        = Convert.FromBase64String(hash);
                 bytes[0] ^= 0xFF;
                 var tamperedHash = Convert.ToBase64String(bytes);
 

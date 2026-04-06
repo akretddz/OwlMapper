@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureModules();
 
 var assembliesList = ModuleLoader.LoadAssemblies(builder.Configuration);
-var modulesList = ModuleLoader.LoadModules(assembliesList);
+var modulesList    = ModuleLoader.LoadModules(assembliesList);
 
 modulesList.ForEach(module => module.Register(builder.Services, builder.Configuration));
 

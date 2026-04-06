@@ -11,8 +11,7 @@ namespace Shared.DAL
     {
         public static IServiceCollection AddPostgresDbContext<TContext>(
             this IServiceCollection services,
-            IConfiguration configuration)
-            where TContext : DbContext
+            IConfiguration configuration) where TContext : DbContext
         {
             var connectionString = configuration
                 .GetSection(Database)

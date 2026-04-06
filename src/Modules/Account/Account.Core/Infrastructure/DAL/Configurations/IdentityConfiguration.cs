@@ -1,14 +1,15 @@
-﻿using Account.Core.Shared.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Account.Core.Infrastructure.Consts.Tables.Names;
 
+using IdentityEntityType = Account.Core.Shared.Entities.Identity;
+
 namespace Account.Core.Infrastructure.DAL.Configurations
 {
-    internal class IdentityConfiguration : IEntityTypeConfiguration<Identity>
+    internal class IdentityConfiguration : IEntityTypeConfiguration<IdentityEntityType>
     {
-        public void Configure(EntityTypeBuilder<Identity> builder)
+        public void Configure(EntityTypeBuilder<IdentityEntityType> builder)
         {
             builder.ToTable(Identities);
             builder.HasKey(i => i.Id);

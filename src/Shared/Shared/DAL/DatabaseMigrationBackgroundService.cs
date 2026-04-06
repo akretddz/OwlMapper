@@ -28,7 +28,7 @@ namespace Shared.DAL
             }
 
             using var scope = serviceScopeFactory.CreateScope();
-            var migrators = scope.ServiceProvider.GetServices<IDatabaseMigrator>();
+            var migrators   = scope.ServiceProvider.GetServices<IDatabaseMigrator>();
 
             foreach (var migrator in migrators)
             {

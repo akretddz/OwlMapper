@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Modules\Account\Account.Core\Account.Core.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Account\Account.Core\Account.Core.csproj" />
   </ItemGroup>
 
 </Project>

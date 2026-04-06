@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Account.Core.Infrastructure.Consts.Tables.Names;
+using static Account.Core.Infrastructure.Consts.Validations;
 
 namespace Account.Core.Infrastructure.DAL.Configurations
 {
@@ -14,12 +15,13 @@ namespace Account.Core.Infrastructure.DAL.Configurations
             builder.HasKey(at => at.Id);
 
             builder.Property(at => at.Token)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(TokenMaxLength);
 
             builder.Property(at => at.TokenType)
                 .HasConversion<string>()
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(TokenTypeMaxLength);
 
             builder
                 .HasOne(at => at.Account)
