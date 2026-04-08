@@ -38,4 +38,4 @@ jobs:
         run: dotnet test --filter Tests.Unit
 
       - name: Run Architecture Tests
-        run: dotnet test --filter ArchitectureTests
+        run: dotnet test --filter Tests.Architecture
