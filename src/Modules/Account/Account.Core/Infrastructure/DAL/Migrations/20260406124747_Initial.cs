@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/Modules/Account/Account.Core/Infrastructure/DAL/Migrations/20250528000000_InitialCreate.cs
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-========
-﻿#nullable disable
->>>>>>>> ak/OWL5-account-entities:src/Modules/Account/Account.Core/Infrastructure/DAL/Migrations/20260406124747_Initial.cs
+#nullable disable
 
 using Microsoft.EntityFrameworkCore.Migrations;
 

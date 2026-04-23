@@ -1,15 +1,9 @@
 namespace Shared.Exceptions
 {
-    public sealed class ValidationException : AppException
+    public sealed class ValidationException(IReadOnlyDictionary<string, string[]> errors) : Exception("Validation failed")
     {
         public const string ValidationErrorCode = "validation_error";
 
-        public IReadOnlyDictionary<string, string[]> Errors { get; }
-
-        public ValidationException(IReadOnlyDictionary<string, string[]> errors)
-            : base(ValidationErrorCode, "One or more validation errors occurred.", 422)
-        {
-            Errors = errors;
-        }
+        public IReadOnlyDictionary<string, string[]> Errors { get; } = errors;
     }
 }

@@ -1,12 +1,11 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+using Shared.Exceptions;
 using System.Net.Mime;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using static Shared.Consts.Exceptions;
 
-namespace Shared.Exceptions
+namespace Bootstrapper
 {
     public sealed class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
@@ -32,7 +31,6 @@ namespace Shared.Exceptions
                 httpContext.Response.ContentType = MediaTypeNames.Application.ProblemJson;
 
                 var body = new ErrorResponse(
-                    details.StatusCode,
                     details.ErrorCode,
                     details.Detail,
                     httpContext.TraceIdentifier,
@@ -65,7 +63,6 @@ namespace Shared.Exceptions
         private record ExceptionDetails(int StatusCode, string ErrorCode, string Detail, object? Errors);
 
         private record ErrorResponse(
-            int StatusCode,
             string ErrorCode,
             string Detail,
             string TraceId,

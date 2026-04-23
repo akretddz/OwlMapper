@@ -16,7 +16,7 @@
     <Project Path="src/Shared/Shared/Shared.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="Account.Tests.Unit/Account.Tests.Unit.csproj" Id="0aed90a9-7abc-42ae-a52a-6f8b12a87fc0" />
+    <Project Path="tests/Account.Tests.Unit/Account.Tests.Unit.csproj" Id="0aed90a9-7abc-42ae-a52a-6f8b12a87fc0" />
     <Project Path="tests/Shared.Tests.Unit/Shared.Tests.Unit.csproj" />
   </Folder>
 </Solution>
