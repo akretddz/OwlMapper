@@ -12,7 +12,7 @@ namespace Shared.Tests.Unit
         {
             var body                = new MemoryStream();
             var context             = new DefaultHttpContext();
-            context.Response.Body   = body;
+            context.Response.Body = body;
             context.TraceIdentifier = "test-trace-id";
             var middleware          = new ExceptionMiddleware(next, logger);
 

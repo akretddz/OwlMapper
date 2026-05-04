@@ -27,7 +27,7 @@ namespace Bootstrapper
 
                 var details = GetExceptionDetails(ex);
 
-                httpContext.Response.StatusCode  = details.StatusCode;
+                httpContext.Response.StatusCode = details.StatusCode;
                 httpContext.Response.ContentType = MediaTypeNames.Application.ProblemJson;
 
                 var body = new ErrorResponse(

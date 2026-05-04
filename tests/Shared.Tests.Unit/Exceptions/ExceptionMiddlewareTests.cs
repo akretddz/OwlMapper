@@ -194,7 +194,7 @@ namespace Shared.Tests.Unit.Exceptions
                 Assert.That(errorsElement.TryGetProperty("email", out _), Is.True);
                 Assert.That(errorsElement.TryGetProperty("password", out _), Is.True);
             }
-        
+
             [Test]
             public async Task Returns_500_status_code()
             {
