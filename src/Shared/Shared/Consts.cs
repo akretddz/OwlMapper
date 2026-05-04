@@ -31,5 +31,11 @@
         [
             "Account",
         ];
+
+        public static class Exceptions
+        {
+            public const string ValidationErrorCode = "validation_error";
+            public const string InternalErrorCode   = "internal_error";
+        }
     }
 }
